@@ -1,0 +1,11 @@
+<div (keydown)="submit($event)">
+	<h2 mat-dialog-title>New torrent from magnet link</h2>
+	<mat-dialog-content>Enter magnet link</mat-dialog-content>
+	<mat-form-field>
+		<input matInput placeholder="Magnet link" [(ngModel)]="magnet">
+	</mat-form-field>
+	<mat-dialog-actions>
+	  <button mat-button id="start" [mat-dialog-close]="magnet">Start torrent</button>
+	  <button mat-button [mat-dialog-close]="false">Cancel</button>
+	</mat-dialog-actions>
+</div>

@@ -1,0 +1,74 @@
+<div class="torrent-list mat-elevation-z8">
+  <mat-table #table [dataSource]="torrents" matSort>
+
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+      <mat-cell *matCellDef="let element">
+      	<button mat-button (click)="startTorrent(element.infoHash)">
+      		<i class="material-icons">play_arrow</i></button>
+      	<button mat-button (click)="pauseTorrent(element.infoHash)">
+      		<i class="material-icons">pause</i></button>
+      	<button mat-button (click)="removeTorrent(element.infoHash)">
+      		<i class="material-icons">delete</i></button>
+	  </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <mat-header-cell mat-sort-header *matHeaderCellDef>Name</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{element.name}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="infoHash">
+      <mat-header-cell *matHeaderCellDef>Info Hash</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.infoHash}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{status(element)}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="timeAdded">
+      <mat-header-cell mat-sort-header *matHeaderCellDef>Time Added</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.timeAdded}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="bytesDownloaded">
+      <mat-header-cell *matHeaderCellDef>Bytes Downloaded</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{humanReadable(element.bytesDownloaded)}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="bytesUploaded">
+      <mat-header-cell *matHeaderCellDef>Bytes Uploaded</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{humanReadable(element.bytesUploaded)}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="totalBytes">
+      <mat-header-cell *matHeaderCellDef>Total Bytes</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{humanReadable(element.totalBytes)}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="totalBytesToDownload">
+      <mat-header-cell *matHeaderCellDef>Done</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{fixed(element.percentDone)}}%</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="downloadRate">
+      <mat-header-cell *matHeaderCellDef>Download Rate</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{humanReadable(element.downloadRate)}}B/s</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="uploadRate">
+      <mat-header-cell *matHeaderCellDef>Upload Rate</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{humanReadable(element.uploadRate)}}B/s</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="numPeers">
+      <mat-header-cell *matHeaderCellDef>Peers</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.numPeers}} </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+</div>

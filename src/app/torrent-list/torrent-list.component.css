@@ -1,0 +1,65 @@
+.mat-column-actions {
+   flex: 10 5 10px;
+}
+
+.mat-column-actions button {
+   min-width: 30px;
+   padding: 0;
+}
+
+.mat-column-name {
+   flex: 40 10 60px;
+}
+
+.mat-column-infoHash {
+   flex: 20 10 50px;
+}
+
+.mat-column-status {
+   flex: 5 10 50px;
+}
+
+.mat-column-timeAdded {
+   flex: 5 10 20px;
+}
+
+.mat-column-bytesDownloaded {
+   flex: 5 10 20px;
+}
+
+.mat-column-bytesUploaded {
+   flex: 5 10 20px;
+}
+
+.mat-column-bytesUploded {
+   flex: 5 10 20px;
+}
+
+.mat-column-totalBytes {
+   flex: 5 10 20px;
+}
+
+.mat-column-totalBytesToDownload {
+   flex: 5 10 20px;
+}
+
+.mat-column-downloadRate {
+   flex: 5 10 10px;
+}
+
+.mat-column-uploadRate {
+   flex: 5 10 10px;
+}
+
+.mat-column-numPeers {
+   flex: 5 10 10px;
+}
+
+.mat-column-seeders {
+   flex: 5 10 10px;
+}
+
+.mat-column-seedersTotal {
+   flex: 5 10 10px;
+}
+
