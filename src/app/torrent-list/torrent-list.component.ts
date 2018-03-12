@@ -1,8 +1,31 @@
+/*
+ * KTorrent HTML Interface, html app.
+ * Copyright (C) 2018 Emmanuel Eytan
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ */
+
+import { HttpHeaders } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatSort } from '@angular/material';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/startWith';
+import 'rxjs/add/operator/mergeMapTo';
+import 'rxjs/add/observable/timer';
 
 import { KTorrentData, Torrent } from '../ktorrentdata';
 import { TorrentsService } from '../torrents.service';
@@ -17,12 +40,11 @@ export class TorrentListComponent implements OnInit {
   /**
    * How often the data should auto-refresh, in miliseconds.
    */
-  static REFRESH_RATE = 5000;
-
+  static REFRESH_RATE = 8000;
 
   torrents: Torrent[];
 
-  torrentObserver: Observable<Torrent[]>;
+  securityToken = '';
 
   displayedColumns = [
       'actions',
@@ -52,14 +74,13 @@ export class TorrentListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.torrentObserver =
-      this.torrentsService.getTorrents().map(kt => kt.torrents.map(torrent => Torrent.fromJson(torrent)));
-    this.getTorrents();
-    setInterval(() => this.getTorrents(), TorrentListComponent.REFRESH_RATE);
-  }
-
-  getTorrents(): void {
-    this.torrentObserver.subscribe(k => this.torrents = k);
+    Observable.timer(0, TorrentListComponent.REFRESH_RATE).mergeMapTo(this.torrentsService.getTorrents())
+      .subscribe(t => this.torrents = t);
+    const securityToken =
+        (document as any).cookie.split('; ').map(c => c.split('=')).filter(c => c[0] === 'token')[0][1] || '';
+    this.torrentsService.setSecurityHeaders(new HttpHeaders({
+      'Session-Token': securityToken,
+    }));
   }
 
   status(torrent: Torrent): string {
@@ -90,7 +111,7 @@ export class TorrentListComponent implements OnInit {
   }
 
   pauseTorrent(hash: string): void {
-    this.torrentsService.pauseTorrent(hash);
+    this.torrentsService.stopTorrent(hash);
   }
 
   removeTorrent(hash: string): void {
