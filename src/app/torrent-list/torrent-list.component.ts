@@ -78,9 +78,8 @@ export class TorrentListComponent implements OnInit {
       .subscribe(t => this.torrents = t);
     const securityToken =
         (document as any).cookie.split('; ').map(c => c.split('=')).filter(c => c[0] === 'token')[0][1] || '';
-    this.torrentsService.setSecurityHeaders(new HttpHeaders({
-      'Session-Token': securityToken,
-    }));
+    this.torrentsService.setSecurityHeaders(new HttpHeaders()
+      .set('Session-Token', securityToken));
   }
 
   status(torrent: Torrent): string {

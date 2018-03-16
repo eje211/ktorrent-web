@@ -32,6 +32,8 @@ export class TorrentsService {
     this.http.post(`http://${location.host}/ktorrentaction`, {
       type: 'start',
       hash: hash,
+    },
+    {
       headers: TorrentsService.securityHeaders,
     }).subscribe();
   }
@@ -40,6 +42,8 @@ export class TorrentsService {
     this.http.post(`http://${location.host}/ktorrentaction`, {
       type: 'stop',
       hash: hash,
+    },
+    {
       headers: TorrentsService.securityHeaders,
     }).subscribe();
   }
@@ -48,6 +52,8 @@ export class TorrentsService {
     this.http.post(`http://${location.host}/ktorrentaction`, {
       type: 'remove',
       hash: hash,
+    },
+    {
       headers: TorrentsService.securityHeaders,
     }).subscribe();
   }
@@ -56,6 +62,8 @@ export class TorrentsService {
     this.http.post(`http://${location.host}/ktorrentaction`, {
       type: 'magnet',
       magnet: magnetLink,
+    },
+    {
       headers: TorrentsService.securityHeaders,
     }).subscribe();
   }
